@@ -1,6 +1,3 @@
-
----
-
 # 🍽️ Restaurant Reservation System (Spring Boot + PostgreSQL)
 
 A full-stack **Restaurant Reservation System** built with **Spring Boot**, **PostgreSQL**, and a simple **HTML/CSS/JavaScript frontend**.
