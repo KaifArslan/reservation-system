@@ -1,4 +1,3 @@
-Here’s a clean **`README.md`** you can directly copy into your GitHub repo for your **Restaurant Reservation System** project:
 
 ---
 
