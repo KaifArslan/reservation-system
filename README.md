@@ -8,6 +8,7 @@ The project allows restaurants to manage reservations, check availability, and h
 ### Core Functionality
 - **Real-time Availability Checking** - Dynamic time slot generation based on existing reservations and table capacity
 - **Flexible Booking System** - Customers can choose any available time (15-minute intervals), not limited to fixed slots
+- **Multiple Restaurants**
 - **Multi-table Management** - Handles overlapping reservations across multiple tables
 - **Business Rules Validation** - Operating hours, party size limits, and reservation duration enforcement
 
@@ -37,8 +38,8 @@ The project allows restaurants to manage reservations, check availability, and h
 - Restaurant can have their own landing page and add a link with their Id to the common reservation page the server is providing. 
 - ~ http://localhost:8080/reserve.html?restaurantId= 'your restaurant Id'.
 
-## Login And Registration
-For accessing Restaurant Admin Page, User need to Login or Register. 
+## 🔐 Login And Registration
+To access the Restaurant Admin Page, users must login or register.
 <img width="1919" height="907" alt="Screenshot 2025-12-10 180131" src="https://github.com/user-attachments/assets/d6e4d22a-2d3d-4ffb-a408-2d68b64a5fc7" />
 <img width="1919" height="915" alt="Screenshot 2025-12-10 180146" src="https://github.com/user-attachments/assets/9e639886-3227-4ec4-9234-b09b7b5389c5" />
 
@@ -48,18 +49,38 @@ For accessing Restaurant Admin Page, User need to Login or Register.
 ## 🛠️ Tech Stack
 
 **Backend**
-
-* Java
-* Spring Boot
+* Java 21
+* Spring Boot 4.0
 * Spring Data JPA (Hibernate)
 * Spring Security + JWT
 * PostgreSQL
+* Maven
 
 **Frontend**
+* HTML5, CSS3
+* Vanilla JavaScript
+* Fetch API
 
-* HTML
-* CSS
-* JavaScript
+## 🗄️ Database Schema
+
+### Main Tables
+
+**restaurants**
+- id, name, address
+- opening_time, closing_time
+- total_tables, max_party_size
+- standard_duration_minutes (default: 90)
+- reservations (One to many)
+
+**reservations**
+- id, customer_name, customer_phone
+- reservation_date, start_time, end_time, createdOn, updatedOn
+- party_size, status (PENDING/CONFIRMED/CANCELLED)
+- restaurant_id (FK) → One-to-Many with restaurants
+
+**restaurant_users**
+- id, email (unique), password (BCrypt)
+- name, restaurant_id
 
 
 ## 🔗 API Endpoints
@@ -117,20 +138,59 @@ For accessing Restaurant Admin Page, User need to Login or Register.
 | GET    | `/reservations/available-slots`           | Get available time slots for date | ❌             |
 | PATCH  | `/reservations/{id}/cancel`               | Cancel a reservation              | ✅             |
 
+
+## 🧮 How Availability Works
+
+The system uses an **overlap detection algorithm**:
+
+1. **Generate Time Slots** - 15-minute intervals within operating hours
+2. **Check Existing Reservations** - Fetch all reservations for selected date
+3. **Count Overlaps** - For each slot, count overlapping reservations
+4. **Apply Table Limit** - Available if: `overlapping < total_tables`
+
+**Overlap Logic:**
+```
+Slot A overlaps Slot B if:
+A.startTime < B.endTime AND A.endTime > B.startTime
+```
+
+**Example:**
+- Restaurant has 5 tables
+- 3 reservations at 7:00 PM
+- Customer wants 7:15 PM
+- Result: ✅ Available (3 < 5)
+
 ---
 
-### 🧪 Example Query Params
+### 🧪 Testing Example Query Params
 
-**Check Availability**
+Use any http client
+```http
+### Login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
 
-```
-/reservations/availability?restaurantId=1&date=2025-01-12&time=18:30
-```
+{
+  "email": "admin@restaurant.com",
+  "password": "password123"
+}
 
-**Get Available Slots**
+### Get Available Slots
+GET http://localhost:8080/reservations/available-slots?restaurantId=1&date=2025-12-15
 
-```
-/reservations/available-slots?restaurantId=1&date=2025-01-12
+### Create Reservation
+POST http://localhost:8080/reservations
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "customerName": "John Doe",
+  "customerPhone": "123-456-7890",
+  "startTime": "19:15:00",
+  "partySize": 4,
+  "reservationDate": "2025-12-15",
+  "restaurant": { "id": 1 }
+}
 ```
 
 ---
@@ -145,6 +205,14 @@ Authorization: Bearer <your_token_here>
 
 ---
 
+## 📋 Prerequisites
+
+Before you begin, ensure you have:
+- **Java 21** or higher
+- **PostgreSQL 12+**
+- **Maven 3.6+**
+- **Git** (Optional)
+  
 ## ⚙️ Setup Instructions
 
 ### 1. Clone the Repository
@@ -168,7 +236,7 @@ Update your `application.properties`:
 spring.application.name=reservation-system
 
 spring.datasource.url=jdbc:postgresql://localhost:5432/reservation_system
-spring.datasource.username=postgres
+spring.datasource.username=your_username
 spring.datasource.password=your_password
 
 spring.jpa.hibernate.ddl-auto=update
@@ -224,10 +292,15 @@ Authorization: Bearer <your_token>
 | Registration Page     |`http://localhost:8080/register.html`|
 
 ---
- 
+
 ## 💡 Future Improvements
 
 * Role-based access control
 * Multiple branch management
 * Payment integration
 * Real-time availability (WebSockets)
+
+## 👤 Author
+Kaif
+- GitHub: [@KaifArslan](https://github.com/KaifArslan)
+- [LinkedIn](http://www.linkedin.com/in/kaifarslan)
