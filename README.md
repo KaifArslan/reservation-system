@@ -1,32 +1,49 @@
 # 🍽️ Restaurant Reservation System (Spring Boot + PostgreSQL)
-
 A full-stack **Restaurant Reservation System** built with **Spring Boot**, **PostgreSQL**, and a simple **HTML/CSS/JavaScript frontend**.
 The project allows restaurants to manage reservations, check availability, and handle bookings through authenticated admin panels.
 
----
 
 ## 🚀 Features
 
-### Backend (Spring Boot)
+### Core Functionality
+- **Real-time Availability Checking** - Dynamic time slot generation based on existing reservations and table capacity
+- **Flexible Booking System** - Customers can choose any available time (15-minute intervals), not limited to fixed slots
+- **Multi-table Management** - Handles overlapping reservations across multiple tables
+- **Business Rules Validation** - Operating hours, party size limits, and reservation duration enforcement
 
-* Create, update, delete **restaurants**
-* Create, update, cancel **reservations**
-* Slot-based table availability system
-* JWT-based authentication for restaurant admins
-* RESTful APIs
+### Authentication & Security
+- **JWT-based Authentication** - Stateless token authentication with 24-hour expiration
+- **Role-based Access Control** - Secure admin endpoints with Spring Security
+- **BCrypt Password Hashing** - One-way password encryption for secure storage
 
 ### Frontend (Static HTML + JS)
 
-* Landing page for restaurants
-* Admin dashboard:
+## Admin Dashboard
 
-  * Today’s reservations
-  * All reservations
-  * Restaurant profile update
-  * Slot availability view
-* Light/Dark theme toggle
+- **Reservation Management** - View, create, and cancel reservations, today's bookings, available time slots.
+<img width="1919" height="1016" alt="Screenshot 2025-12-10 172553" src="https://github.com/user-attachments/assets/2631e865-ae3b-4895-93ea-432f15adc546" />
+<img width="1919" height="907" alt="Screenshot 2025-12-10 172630" src="https://github.com/user-attachments/assets/54ebc02b-23ef-4110-82c8-04822155e4e8" />
+<img width="1919" height="914" alt="Screenshot 2025-12-10 172753" src="https://github.com/user-attachments/assets/09a4b5fc-f2b4-461b-b89f-08dec1e4a0a7" />
+<img width="1919" height="910" alt="Screenshot 2025-12-10 172727" src="https://github.com/user-attachments/assets/68df1159-1236-4778-95ee-cef35c589bd2" />
+
+- **Restaurant Profile Management** - Update operating hours, table count, and settings
+- **Responsive UI** - Clean, modern interface with dark mode support
+
+## Common Reservation Page for Multiple Restaurant
+<img width="1919" height="903" alt="Screenshot 2025-12-10 204139" src="https://github.com/user-attachments/assets/47d60672-fc29-47ef-a5eb-efdf696d1078" />
+<img width="1917" height="904" alt="Screenshot 2025-12-10 204233" src="https://github.com/user-attachments/assets/ec7cc955-c4a5-4911-b7ac-383f22dc148e" />
+<img width="1321" height="688" alt="Screenshot 2025-12-10 204511" src="https://github.com/user-attachments/assets/7d50e3f2-b927-4df3-9c9e-68337a4b5208" />
+
+- Restaurant can have their own landing page and add a link with their Id to the common reservation page the server is providing. 
+- ~ http://localhost:8080/reserve.html?restaurantId= 'your restaurant Id'.
+
+## Login And Registration
+For accessing Restaurant Admin Page, User need to Login or Register. 
+<img width="1919" height="907" alt="Screenshot 2025-12-10 180131" src="https://github.com/user-attachments/assets/d6e4d22a-2d3d-4ffb-a408-2d68b64a5fc7" />
+<img width="1919" height="915" alt="Screenshot 2025-12-10 180146" src="https://github.com/user-attachments/assets/9e639886-3227-4ec4-9234-b09b7b5389c5" />
 
 ---
+
 
 ## 🛠️ Tech Stack
 
@@ -42,14 +59,8 @@ The project allows restaurants to manage reservations, check availability, and h
 
 * HTML
 * CSS
-* Vanilla JavaScript
+* JavaScript
 
----
-
-Here’s a clean **“API Endpoints”** section you can directly paste into your GitHub **README.md**.
-It includes your **AuthController**, **RestaurantController**, and **ReservationController**.
-
----
 
 ## 🔗 API Endpoints
 
@@ -213,47 +224,7 @@ Authorization: Bearer <your_token>
 | Registration Page     |`http://localhost:8080/register.html`|
 
 ---
-
-## 📡 API Endpoints
-
-### Reservations
-
-| Method | Endpoint                        | Description              |
-| ------ | ------------------------------- | ------------------------ |
-| GET    | `/reservations`                 | Get all reservations     |
-| GET    | `/reservations/{id}`            | Get reservation by ID    |
-| POST   | `/reservations`                 | Create reservation       |
-| PUT    | `/reservations/{id}`            | Update reservation       |
-| PATCH  | `/reservations/{id}/cancel`     | Cancel reservation       |
-| GET    | `/reservations/availability`    | Check slot availability  |
-| GET    | `/reservations/available-slots` | Get available time slots |
-
-### Restaurants
-
-| Method | Endpoint            | Description       |
-| ------ | ------------------- | ----------------- |
-| GET    | `/restaurants/{id}` | Get restaurant    |
-| POST   | `/restaurants`      | Create restaurant |
-| PUT    | `/restaurants/{id}` | Update restaurant |
-
----
-
-## 🧪 Sample Testing
-
-You can test the APIs using:
-
-* VS Code HTTP client
-* Postman
-* Browser fetch()
-
----
-
-## 📸 Screenshots
-
  
-
----
-
 ## 💡 Future Improvements
 
 * Role-based access control
