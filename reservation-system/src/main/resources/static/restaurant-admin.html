@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Admin</title>
+
+    <style>
+        :root {
+            --bg: #f7f7f8;
+            --card: #ffffff;
+            --text: #222;
+            --border: #dddddd;
+        }
+
+        .dark {
+            --bg: #1e1e1e;
+            --card: #2b2b2b;
+            --text: #eeeeee;
+            --border: #444;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            font-family: Arial, sans-serif;
+            color: var(--text);
+        }
+
+        .header {
+            padding: 15px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar {
+            width: 230px;
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text);
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+        }
+
+        table th, table td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .hidden { display: none; }
+
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .slot {
+            display:inline-block;
+            padding:8px 12px;
+            margin:5px;
+            border:1px solid var(--border);
+            border-radius:6px;
+            cursor:pointer;
+        }
+        .toggle{
+           background-color: "gray";
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2 id="restaurantName">Restaurant Admin</h2>
+    <div>
+        <button class="logout-btn toggle" onclick="toggleTheme()">Toggle Theme</button>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<div class="sidebar">
+    <button onclick="showSection('todaySection')">Today's Reservations</button>
+    <button onclick="showSection('allSection')">All Reservations</button>
+    <button onclick="showSection('profileSection')">Restaurant Profile</button>
+    <button onclick="showSection('slotsSection')">Available Slots</button>
+    <button onclick="showSection('addSection')">Add Reservation</button>
+</div>
+
+<div class="content">
+
+    <!-- TODAY -->
+    <div id="todaySection" class="card">
+        <h3>Today's Reservations</h3>
+        <table id="todayTable"></table>
+    </div>
+
+    <!-- ALL -->
+    <div id="allSection" class="card hidden">
+        <h3>All Reservations</h3>
+        <table id="allTable"></table>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="profileSection" class="card hidden">
+        <h3>Restaurant Profile</h3>
+        <div id="profileForm"></div>
+        <button onclick="updateProfile()">Save</button>
+    </div>
+
+    <!-- AVAILABLE SLOTS -->
+    <div id="slotsSection" class="card hidden">
+        <h3>Available Time Slots</h3>
+
+        <label>Select Date</label><br>
+        <input type="date" id="slotDate"><br><br>
+
+        <button onclick="loadSlots()">Check Slots</button>
+
+        <div id="slotsContainer" style="margin-top:15px;"></div>
+    </div>
+
+    <!-- ADD RESERVATION -->
+    <div id="addSection" class="card hidden">
+        <h3>Add Reservation</h3>
+
+        <label>Name</label><br>
+        <input id="addName"><br><br>
+
+        <label>Phone</label><br>
+        <input id="addPhone"><br><br>
+
+        <label>Date</label><br>
+        <input type="date" id="addDate"><br><br>
+
+        <label>Start Time</label><br>
+        <input type="time" id="addTime"><br><br>
+
+        <label>Party Size</label><br>
+        <input type="number" id="addParty"><br><br>
+
+        <button onclick="createReservation()">Submit</button>
+    </div>
+
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
